@@ -1,65 +1,87 @@
 from scapy.all import *
+from scapy.layers.inet import IP, ICMP
 
-def enviar_ping(datos, destino):
-    if isinstance(datos, str):
-        datos = datos.encode()  # Convierte la cadena de texto a bytes si es necesario
-    
-    # Construye un paquete ICMP con los datos especificados
-    paquete = IP(dst=destino)/ICMP()/Raw(load=datos)
-    
-    # Envía el paquete
-    send(paquete, verbose=0)
-    print(f'Sent 1 packet with data: {datos.hex()}')
-
+def enviar_ping(caracter, destino):
+    """
+    Envía un paquete ICMP con un solo carácter en el campo de datos.
+    """
+    if destino:
+        paquete = IP(dst=destino) / ICMP() / Raw(load=caracter.encode())
+        send(paquete, verbose=0)
+        print(f'Enviado 1 paquete con datos: {caracter.encode().hex()}')
+        return paquete
+    else:
+        raise ValueError("El destino no puede ser None")
 
 def ping_reales(destino):
-    # Envía pings normales para capturar los campos reales
-    for _ in range(4):
-        paquete = IP(dst=destino)/ICMP()
-        respuesta = sr1(paquete, timeout=1, verbose=0)
-        if respuesta:
-            print(f'Real ping: {respuesta.summary()}')
-        else:
-            print("No response.")
+    """
+    Envía pings normales para capturar los campos reales y mostrar el resumen.
+    """
+    if destino:
+        for _ in range(4):
+            paquete = IP(dst=destino) / ICMP()
+            respuesta = sr1(paquete, timeout=1, verbose=0)
+            if respuesta:
+                print(f'Ping real: {respuesta.summary()}')
+            else:
+                print("Sin respuesta.")
+    else:
+        raise ValueError("El destino no puede ser None")
 
 def enviar_datos_como_ping(datos, destino):
-    # Muestra pings reales
-    print("Ping real previo:")
-    ping_reales(destino)
-    
-    print("\nEnviando datos como ping:")
-    enviar_ping(datos, destino)
-    
-    # Muestra pings reales posteriores
-    print("\nPing real posterior:")
-    ping_reales(destino)
+    """
+    Envía cada carácter del texto cifrado como un ping individual.
+    """
+    paquetes = []
+    if destino:
+        # Muestra pings reales previos
+        print("Ping real previo:")
+        ping_reales(destino)
 
-def desplazar_string(texto, desplazamiento):
+        # Envía los datos como pings
+        print("\nEnviando datos como pings:")
+        for caracter in datos:
+            paquete = enviar_ping(caracter, destino)
+            paquetes.append(paquete)
+
+        # Muestra pings reales posteriores
+        print("\nPing real posterior:")
+        ping_reales(destino)
+    else:
+        raise ValueError("El destino no puede ser None")
+    return paquetes
+
+def cesar(texto, desplazamiento):
+    """
+    Aplica el cifrado César al texto con el desplazamiento dado.
+    """
     resultado = ""
-
     for caracter in texto:
-        valor_ascii = ord(caracter)
-        
-        nuevo_valor_ascii = valor_ascii + desplazamiento
-        
-        if nuevo_valor_ascii > 126: 
-            nuevo_valor_ascii = (nuevo_valor_ascii - 32) % 95 + 32 
-        elif nuevo_valor_ascii < 32:
-            nuevo_valor_ascii = 126 - (31 - nuevo_valor_ascii)
-        
-        nuevo_caracter = chr(nuevo_valor_ascii)
-        
-        resultado += nuevo_caracter
+        if caracter.isalpha():
+            ascii_inicial = ord('A') if caracter.isupper() else ord('a')
+            nuevo_ascii = (ord(caracter) - ascii_inicial + desplazamiento) % 26 + ascii_inicial
+            resultado += chr(nuevo_ascii)
+        else:
+            resultado += caracter
     return resultado
 
 if __name__ == "__main__":
-    texto = input("Ingresa el texto: ")
-    desplazamiento = int(input("Ingresa el texto: "))
+    # Ingreso de datos para realizar el cifrado César
+    print("------------------------------------------------------------------------------")
+    texto = input("Ingrese el texto a cifrar: ")
+    desplazamiento = int(input("Ingrese el desplazamiento (número entero): "))
+    print("------------------------------------------------------------------------------")
 
-    datos = desplazar_string(texto, desplazamiento)
+    texto_cifrado = cesar(texto, desplazamiento)
+    print(f"Texto cifrado: {texto_cifrado}")
+    print("------------------------------------------------------------------------------")
+    destino = input("Ingrese la dirección IP de destino (Ejemplo 8.8.8.8): ")
+    print("------------------------------------------------------------------------------")
+    # Enviar los datos y capturar los paquetes
+    paquetes = enviar_datos_como_ping(texto_cifrado, destino)
 
-    print("Texto original: ", texto)
-    print("Texto desplazado: ", datos)
-
-    destino = "172.20.85.13"
-    enviar_datos_como_ping(datos, destino)
+    # Guardar los paquetes capturados
+    wrpcap("captureAct2.pcap", paquetes)
+    print("------------------------------------------------------------------------------")
+    print(f"Captura guardada nombreda captureAct2 contiene: {len(paquetes)} paquetes.")
+    print("------------------------------------------------------------------------------")
