@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # Ingreso de datos para realizar el cifrado César
     print("------------------------------------------------------------------------------")
     texto = input("Ingrese el texto a cifrar: ")
-    desplazamiento = int(input("Ingrese el desplazamiento (número entero): "))
+    desplazamiento = int(input("Ingrese el desplazamiento (del 1 al 25): "))
     print("------------------------------------------------------------------------------")
 
     texto_cifrado = cesar(texto, desplazamiento)
@@ -81,7 +81,11 @@ if __name__ == "__main__":
     paquetes = enviar_datos_como_ping(texto_cifrado, destino)
 
     # Guardar los paquetes capturados
-    wrpcap("captureAct2.pcap", paquetes)
+    name = input("Ingrese el nombre del archivo de captura (agrega el '.pcap'): ")
+    while not name.endswith('.pcap'):
+        name = input("Ingrese el nombre del archivo de captura (agrega el '.pcap'): ")
+    # Necesito que se guarde en la carpeta capturas
+    wrpcap(f'./capturas/{name}', paquetes)
     print("------------------------------------------------------------------------------")
-    print(f"Captura guardada nombreda captureAct2 contiene: {len(paquetes)} paquetes.")
+    print(f"Captura guardada nombreda {name} contiene: {len(paquetes)} paquetes.")
     print("------------------------------------------------------------------------------")

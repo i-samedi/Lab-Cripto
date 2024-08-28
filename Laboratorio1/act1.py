@@ -12,7 +12,7 @@ def cesar(texto, desplazamiento):
 # Ingreso de datos para realizar el cifrado César
 print("------------------------------------------------------------------------------")
 texto = input("Ingrese el texto a cifrar: ")
-move = int(input("Ingrese el desplazamiento (número entero): "))
+move = int(input("Ingrese el desplazamiento (número entero del 1 al 25): "))
 print("------------------------------------------------------------------------------")
 # Llamada a la función cesar
 texto_cifrado = cesar(texto, move)
