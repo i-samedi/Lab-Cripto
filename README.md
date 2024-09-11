@@ -5,6 +5,10 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 2. [Laboratorio 2](./Laboratorio2)
 3. ...
 ## Tecnologías Utilizadas
+- Kali Linux
 - Python
 - Wireshark
 - Scapy
+- DVWA
+- Burp Suite
+- Hydra
