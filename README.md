@@ -3,7 +3,8 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 ## Laboratorios
 1. [Laboratorio 1](./Laboratorio1)
 2. [Laboratorio 2](./Laboratorio2)
-3. ...
+3. [Laboratorio 3](./Laboratorio3)
+4. ...
 ## Tecnologías Utilizadas
 - Kali Linux
 - Python
@@ -12,3 +13,6 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 - DVWA
 - Burp Suite
 - Hydra
+- Hash : MD5\SHA1\SHA256
+- PassTheHash
+
