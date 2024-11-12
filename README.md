@@ -4,7 +4,8 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 1. [Laboratorio 1](./Laboratorio1)
 2. [Laboratorio 2](./Laboratorio2)
 3. [Laboratorio 3](./Laboratorio3)
-4. ...
+4. [Laboratorio 4](./Laboratorio4)
+5. ...
 ## Tecnologías Utilizadas
 - Kali Linux
 - Python
@@ -15,4 +16,5 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 - Hydra
 - Hash : MD5\SHA1\SHA256
 - PassTheHash
+- Cifrado Simetrico [CBC]: DES\3DES\AES-256
 
