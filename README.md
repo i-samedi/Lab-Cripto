@@ -6,6 +6,7 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 3. [Laboratorio 3](./Laboratorio3)
 4. [Laboratorio 4](./Laboratorio4)
 5. ...
+
 ## Tecnologías Utilizadas
 - Kali Linux
 - Python
