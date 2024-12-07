@@ -19,5 +19,7 @@ Este repositorio contiene los laboratorios realizados en 2024 del curso de Cript
 - PassTheHash
 - Cifrado Simétrico [CBC]: DES\3DES\AES-256
 - Docker
-- HASSH
+- SSH
+- OpenSSH
+- tcpdump
 
